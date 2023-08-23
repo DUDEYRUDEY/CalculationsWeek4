@@ -2,6 +2,7 @@ package au.edu.swin.sdmd.w03_calculations
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -9,11 +10,36 @@ import android.widget.RadioButton
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onStop(){
+        super.onStop()
+        Log.i("Lifecycle","stopped")
+    }
+
+    override fun onRestart(){
+        super.onRestart()
+        Log.i("Lifecycle","restarted")
+    }
+
+    override fun onResume(){
+        super.onResume()
+        Log.i("Lifecycle","resumed")
+    }
+
+    override fun onPause(){
+        super.onPause()
+        Log.i("Lifecycle","restarted")
+    }
+
     var operator = "plus"
+
+    private var result:Int = 0
+    //This means that the result can be used in onSaveInstanceState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.i("Lifecycle","instance was created")
 
         val number1 = findViewById<EditText>(R.id.number1)
         val number2 = findViewById<EditText>(R.id.number2)
@@ -54,4 +80,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    override fun onStart(){
+        super.onStart()
+        Log.i("Lifecycle", "started")
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+        Log.i("Lifecycle","destroyed" )
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        val result = findViewById<TextView>(R.id.answer)
+        outState.putString("ANSWER",result.text.toString())
+
+        Log.i("Lifecycle", "onSaveInstanceState")
+    }
+    //You are overriding from the inherited class AppCompat
 }
